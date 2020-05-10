@@ -63,9 +63,9 @@ int main()
 
     initialize();
 
-    //open the file
+    //open the file; replace file name as appropriate
     ifstream infile;
-    infile.open("test-input-file.txt");
+    infile.open("test-input.txt");
 
     if (!infile) {
         cout << "Unable to open file";
@@ -80,8 +80,6 @@ int main()
     //read in nodes (first line in file)
     infile >> nodes;
 
-    //calculate the number of edges
-
     //cin >> nodes >> edges;this was used in old program
     for (int i = 0; !infile.eof(); ++i) {
         //read in x and y (both being the node), and the weight between them
@@ -90,11 +88,14 @@ int main()
         //if 1073741824 there is no direct route, so ignore
         //do not make a pair out of x and y, get next input
         if (weight == 1073741824) {
-            cout << "I see there is no direct route between " << x << y << endl;
+            cout << "I see there is no direct route between " << x << " and " << y << endl;
+            edges += 1;
         }
 
         else {
             p[i] = make_pair(weight, make_pair(x, y));
+            //calculate the number of edges
+            edges += 1;
         }
     }
     // Sort the edges in the ascending order
@@ -116,11 +117,11 @@ int main()
 
     // To get the value of duration use the count() 
     // member function on the duration object 
-    cout << duration.count() << endl;
+    cout << "Total Executiontime: " << duration.count() << endl;
 
     //output the minimum cost
 
-    cout << minimumCost << endl;
+    cout << "Minimum Cost = " << minimumCost << endl;
 
     return 0;
 }
