@@ -5,13 +5,16 @@
 #include <chrono>
 #include <fstream>
 
+//include chrono to time algoirthm
 using namespace std::chrono;
 using namespace std;
 
+//global variables for the algorithm functions
 const int MAX = 1e4 + 5;
 int id[MAX], nodes, edges;
 pair <long long, pair<int, int> > p[MAX];
 
+//initializes program
 void initialize()
 {
     for (int i = 0; i < MAX; ++i)
@@ -35,21 +38,26 @@ void union1(int x, int y)
     id[p] = id[q];
 }
 
+//primary function for finding the MST and displaying it
 long long kruskal(pair<long long, pair<int, int> > p[])
 {
     int x, y;
     long long cost, minimumCost = 0;
+
+    cout << "Minimum Spanning Tree (T): ";
     for (int i = 0; i < edges; ++i)
     {
         // Selecting edges one by one in increasing order from the beginning
         x = p[i].second.first;
         y = p[i].second.second;
         cost = p[i].first;
+
         // Check if the selected edge is creating a cycle or not
         if (root(x) != root(y))
         {
             minimumCost += cost;
             union1(x, y);
+            cout << "(" << x << "," << y << "),";
         }
     }
     return minimumCost;
@@ -117,10 +125,10 @@ int main()
 
     // To get the value of duration use the count() 
     // member function on the duration object 
+    cout << endl;
     cout << "Total Executiontime: " << duration.count() << endl;
 
     //output the minimum cost
-
     cout << "Minimum Cost = " << minimumCost << endl;
 
     return 0;
