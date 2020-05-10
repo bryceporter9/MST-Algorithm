@@ -1,3 +1,9 @@
+/*Created By: Bryce Porter
+Created On: May 10, 2020
+Purpose: Finding the MST from file of inputs
+Status: Runs correctly, and has all appropriate outputs.
+Method: Kruskal's Method
+*/
 #include <iostream>
 #include <vector>
 #include <utility>
@@ -80,9 +86,7 @@ int main()
         exit(1); // terminate with error
     }
 
-    // Use auto keyword to avoid typing long 
-    // type definitions to get the timepoint 
-    // at this instant use function now() 
+    // Use auto keyword to avoid typing long type definitions to get the timepoint at this instant use function now() 
     auto start = high_resolution_clock::now();
 
     //read in nodes (first line in file)
@@ -94,12 +98,13 @@ int main()
         infile >> x >> y >> weight;
 
         //if 1073741824 there is no direct route, so ignore
-        //do not make a pair out of x and y, get next input
+        //do not make a pair out of x and y, get next input, increment number of edges
         if (weight == 1073741824) {
             cout << "I see there is no direct route between " << x << " and " << y << endl;
             edges += 1;
         }
 
+        //make x,y a pair, increment number of edges
         else {
             p[i] = make_pair(weight, make_pair(x, y));
             //calculate the number of edges
@@ -116,17 +121,12 @@ int main()
     //close the file
     infile.close();
 
-    // Subtract stop and start timepoints and 
-    // cast it to required unit. Predefined units 
-    // are nanoseconds, microseconds, milliseconds, 
-    // seconds, minutes, hours. Use duration_cast() 
-    // function. 
+    /*Subtract stop and start timepoints and cast it to required unit. Predefined units are nanoseconds, 
+    microseconds, milliseconds, seconds, minutes, hours. Use duration_cast() function. */
     auto duration = duration_cast<milliseconds>(stop - start);
 
-    // To get the value of duration use the count() 
-    // member function on the duration object 
-    cout << endl;
-    cout << "Total Executiontime: " << duration.count() << endl;
+    // To get the value of duration use the count() member function on the duration object 
+    cout << endl << "Total Executiontime: " << duration.count() << "ms" << endl;
 
     //output the minimum cost
     cout << "Minimum Cost = " << minimumCost << endl;
