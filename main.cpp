@@ -3,6 +3,7 @@
 #include <utility>
 #include <algorithm>
 #include <chrono>
+#include <fstream>
 
 using namespace std::chrono;
 using namespace std;
@@ -63,6 +64,13 @@ int main()
     initialize();
 
     //open the file
+    ifstream infile;
+    infile.open("test-input-file.txt");
+
+    if (!infile) {
+        cout << "Unable to open file";
+        exit(1); // terminate with error
+    }
 
     // Use auto keyword to avoid typing long 
     // type definitions to get the timepoint 
@@ -70,20 +78,24 @@ int main()
     auto start = high_resolution_clock::now();
 
     //read in nodes (first line in file)
-
-    //read in x and y (both being the node)
-
-    //read in the weight between x and y
-        //if 1073741824 there is no direct route, so ignore
-        //do not make a pair out of x and y, get next input
+    infile >> nodes;
 
     //calculate the number of edges
 
-    cin >> nodes >> edges;
-    for (int i = 0; i < edges; ++i)
-    {
-        cin >> x >> y >> weight;
-        p[i] = make_pair(weight, make_pair(x, y));
+    //cin >> nodes >> edges;this was used in old program
+    for (int i = 0; !infile.eof(); ++i) {
+        //read in x and y (both being the node), and the weight between them
+        infile >> x >> y >> weight;
+
+        //if 1073741824 there is no direct route, so ignore
+        //do not make a pair out of x and y, get next input
+        if (weight == 1073741824) {
+            cout << "I see there is no direct route between " << x << y << endl;
+        }
+
+        else {
+            p[i] = make_pair(weight, make_pair(x, y));
+        }
     }
     // Sort the edges in the ascending order
     sort(p, p + edges);
@@ -91,6 +103,9 @@ int main()
 
     // After function call 
     auto stop = high_resolution_clock::now();
+
+    //close the file
+    infile.close();
 
     // Subtract stop and start timepoints and 
     // cast it to required unit. Predefined units 
